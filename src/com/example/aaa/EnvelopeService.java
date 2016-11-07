@@ -1,4 +1,4 @@
-package com.example.aaa;
+﻿package com.example.aaa;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
 //i have modified this file 
 //lol
+//fork by Parker Shao , pull request
 /**
  * <p>Created by Administrator</p>
  * <p/>
