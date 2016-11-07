@@ -13,24 +13,25 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
+//i have modified this file 
 
 /**
  * <p>Created by Administrator</p>
  * <p/>
- * ÇÀºì°üÍâ¹Ò·şÎñ
+ * æŠ¢çº¢åŒ…å¤–æŒ‚æœåŠ¡
  */
 public class EnvelopeService extends AccessibilityService {
 
     static final String TAG = "Jackie";
 
     /**
-     * Î¢ĞÅµÄ°üÃû
+     * å¾®ä¿¡çš„åŒ…å
      */
     static final String WECHAT_PACKAGENAME = "com.tencent.mm";
     /**
-     * ºì°üÏûÏ¢µÄ¹Ø¼ü×Ö
+     * çº¢åŒ…æ¶ˆæ¯çš„å…³é”®å­—
      */
-    static final String ENVELOPE_TEXT_KEY = "[Î¢ĞÅºì°ü]";
+    static final String ENVELOPE_TEXT_KEY = "[å¾®ä¿¡çº¢åŒ…]";
 
     Handler handler = new Handler();
 
@@ -38,9 +39,9 @@ public class EnvelopeService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         final int eventType = event.getEventType();
 
-        Log.d(TAG, "ÊÂ¼ş---->" + event);
+        Log.d(TAG, "äº‹ä»¶---->" + event);
 
-        //Í¨ÖªÀ¸ÊÂ¼ş
+        //é€šçŸ¥æ äº‹ä»¶
         if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
             List<CharSequence> texts = event.getText();
             if (!texts.isEmpty()) {
@@ -65,13 +66,13 @@ public class EnvelopeService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-        Toast.makeText(this, "ÖĞ¶ÏÇÀºì°ü·şÎñ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "ä¸­æ–­æŠ¢çº¢åŒ…æœåŠ¡", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        Toast.makeText(this, "Á¬½ÓÇÀºì°ü·şÎñ", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "è¿æ¥æŠ¢çº¢åŒ…æœåŠ¡", Toast.LENGTH_SHORT).show();
     }
 
     private void sendNotificationEvent() {
@@ -88,14 +89,14 @@ public class EnvelopeService extends AccessibilityService {
     }
 
     /**
-     * ´ò¿ªÍ¨ÖªÀ¸ÏûÏ¢
+     * æ‰“å¼€é€šçŸ¥æ æ¶ˆæ¯
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void openNotification(AccessibilityEvent event) {
         if (event.getParcelableData() == null || !(event.getParcelableData() instanceof Notification)) {
             return;
         }
-        //ÒÔÏÂÊÇ¾«»ª£¬½«Î¢ĞÅµÄÍ¨ÖªÀ¸ÏûÏ¢´ò¿ª
+        //ä»¥ä¸‹æ˜¯ç²¾åï¼Œå°†å¾®ä¿¡çš„é€šçŸ¥æ æ¶ˆæ¯æ‰“å¼€
         Notification notification = (Notification) event.getParcelableData();
         PendingIntent pendingIntent = notification.contentIntent;
         try {
@@ -108,13 +109,13 @@ public class EnvelopeService extends AccessibilityService {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void openEnvelope(AccessibilityEvent event) {
         if ("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI".equals(event.getClassName())) {
-            //µãÖĞÁËºì°ü£¬ÏÂÒ»²½¾ÍÊÇÈ¥²ğºì°ü
+            //ç‚¹ä¸­äº†çº¢åŒ…ï¼Œä¸‹ä¸€æ­¥å°±æ˜¯å»æ‹†çº¢åŒ…
             checkKey1();
         } else if ("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI".equals(event.getClassName())) {
-            //²ğÍêºì°üºó¿´ÏêÏ¸µÄ¼ÍÂ¼½çÃæ
+            //æ‹†å®Œçº¢åŒ…åçœ‹è¯¦ç»†çš„çºªå½•ç•Œé¢
             //nonething
         } else if ("com.tencent.mm.ui.LauncherUI".equals(event.getClassName())) {
-            //ÔÚÁÄÌì½çÃæ,È¥µãÖĞºì°ü
+            //åœ¨èŠå¤©ç•Œé¢,å»ç‚¹ä¸­çº¢åŒ…
             checkKey2();
         }
     }
@@ -123,10 +124,10 @@ public class EnvelopeService extends AccessibilityService {
     private void checkKey1() {
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
         if (nodeInfo == null) {
-            Log.w(TAG, "rootWindowÎª¿Õ");
+            Log.w(TAG, "rootWindowä¸ºç©º");
             return;
         }
-        List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("²ğºì°ü");
+        List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("æ‹†çº¢åŒ…");
         for (AccessibilityNodeInfo n : list) {
             n.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
@@ -136,22 +137,22 @@ public class EnvelopeService extends AccessibilityService {
     private void checkKey2() {
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
         if (nodeInfo == null) {
-            Log.w(TAG, "rootWindowÎª¿Õ");
+            Log.w(TAG, "rootWindowä¸ºç©º");
             return;
         }
-        List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("ÁìÈ¡ºì°ü");
+        List<AccessibilityNodeInfo> list = nodeInfo.findAccessibilityNodeInfosByText("é¢†å–çº¢åŒ…");
         if (list.isEmpty()) {
             list = nodeInfo.findAccessibilityNodeInfosByText(ENVELOPE_TEXT_KEY);
             for (AccessibilityNodeInfo n : list) {
-                Log.i(TAG, "-->Î¢ĞÅºì°ü:" + n);
+                Log.i(TAG, "-->å¾®ä¿¡çº¢åŒ…:" + n);
                 n.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 break;
             }
         } else {
-            //×îĞÂµÄºì°üÁìÆğ
+            //æœ€æ–°çš„çº¢åŒ…é¢†èµ·
             for (int i = list.size() - 1; i >= 0; i--) {
                 AccessibilityNodeInfo parent = list.get(i).getParent();
-                Log.i(TAG, "-->ÁìÈ¡ºì°ü:" + parent);
+                Log.i(TAG, "-->é¢†å–çº¢åŒ…:" + parent);
                 if (parent != null) {
                     parent.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     break;
